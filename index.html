@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Goal-Setting for ESL Lesson Design — Casa Thomas Jefferson</title>
+<style>
+  /* ── Reset & base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:        #ffffff;
+    --bg2:       #f5f5f4;
+    --bg3:       #e7e5e4;
+    --text:      #1c1917;
+    --text2:     #57534e;
+    --text3:     #a8a29e;
+    --border:    #e7e5e4;
+    --border2:   #d6d3d1;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --blue:      #185FA5;
+    --blue-l:    #E6F1FB;
+    --blue-m:    #378ADD;
+    --teal:      #0F6E56;
+    --teal-l:    #E1F5EE;
+    --amber:     #BA7517;
+    --amber-l:   #FAEEDA;
+    --coral:     #993C1D;
+    --coral-l:   #FAECE7;
+    --green:     #3B6D11;
+    --green-l:   #EAF3DE;
+    --purple:    #534AB7;
+    --purple-l:  #EEEDFE;
+    --navy:      #0C447C;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:    #1c1917; --bg2: #292524; --bg3: #3c3836;
+      --text:  #fafaf9; --text2: #a8a29e; --text3: #78716c;
+      --border:#3c3836; --border2: #57534e;
+    }
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg2);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── Shell ── */
+  .shell {
+    max-width: 760px;
+    margin: 0 auto;
+    background: var(--bg);
+    min-height: 100vh;
+    padding: 0 0 4rem;
+    box-shadow: 0 0 0 0.5px var(--border);
+  }
+
+  /* ── Top bar ── */
+  .topbar {
+    background: var(--blue);
+    color: #fff;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .topbar-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+  .topbar-sub   { font-size: 12px; opacity: 0.75; margin-top: 2px; }
+  .ctj-badge {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+    background: rgba(255,255,255,0.18); color: #fff;
+    padding: 4px 10px; border-radius: 20px; white-space: nowrap;
+  }
+
+  /* ── Phase nav ── */
+  .phase-nav-wrap { padding: 1rem 1.5rem 0; }
+  .phase-nav { display: flex; gap: 6px; margin-bottom: 0.5rem; }
+  .phase-dot {
+    flex: 1; height: 5px; border-radius: 3px;
+    background: var(--border2); transition: background 0.3s;
+  }
+  .phase-dot.done   { background: var(--teal); }
+  .phase-dot.active { background: var(--blue-m); }
+  .phase-labels { display: flex; justify-content: space-between; }
+  .phase-label {
+    font-size: 10px; color: var(--text3); flex: 1; text-align: center;
+    cursor: default;
+  }
+  .phase-label.active { color: var(--blue-m); font-weight: 500; }
+  .phase-label.done   { color: var(--teal); }
+
+  /* ── Main content ── */
+  .content { padding: 1.5rem; }
+  .phase-eyebrow {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text3); margin-bottom: 4px;
+  }
+  .phase-title { font-size: 22px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.02em; }
+  .phase-desc  { font-size: 15px; color: var(--text2); line-height: 1.65; margin-bottom: 1.5rem; }
+
+  /* ── Concept card ── */
+  .concept-card {
+    background: var(--bg);
+    border: 0.5px solid var(--border2);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    display: flex; flex-direction: column; gap: 1.25rem;
+  }
+  .card-top { display: flex; align-items: center; justify-content: space-between; }
+  .pill {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 4px 12px; border-radius: 20px;
+  }
+  .card-num { font-size: 12px; color: var(--text3); }
+  .card-rule {
+    font-size: 17px; font-weight: 600; line-height: 1.45;
+    border-left: 3px solid var(--blue-m); padding-left: 12px;
+    letter-spacing: -0.01em;
+  }
+  .card-tip { font-size: 14px; color: var(--text2); line-height: 1.7; }
+  .ba-wrap { display: flex; flex-direction: column; gap: 6px; }
+  .ba-block { border-radius: var(--radius-md); overflow: hidden; }
+  .ba-label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.07em; padding: 5px 12px;
+  }
+  .ba-text  { font-size: 13px; font-style: italic; line-height: 1.6; padding: 9px 12px; }
+  .ba-why   { font-size: 12px; padding: 5px 12px 9px; border-top: 0.5px solid rgba(0,0,0,0.08); }
+  .bad .ba-label { background: #FAECE7; color: #993C1D; }
+  .bad .ba-text  { background: #FAECE7; color: #712B13; }
+  .bad .ba-why   { background: #FAECE7; color: #993C1D; }
+  .good .ba-label { background: #EAF3DE; color: #3B6D11; }
+  .good .ba-text  { background: #EAF3DE; color: #27500A; }
+  .good .ba-why   { background: #EAF3DE; color: #3B6D11; }
+  .arrow-row { display: flex; align-items: center; gap: 8px; }
+  .arrow-line { flex: 1; height: 0.5px; background: var(--border2); }
+  .arrow-txt  { font-size: 11px; color: var(--text3); white-space: nowrap; }
+  .prog-wrap  { height: 4px; background: var(--border2); border-radius: 2px; }
+  .prog-fill  { height: 4px; background: var(--blue-m); border-radius: 2px; transition: width 0.3s; }
+  .card-nav   { display: flex; justify-content: space-between; align-items: center; }
+  .card-counter { font-size: 13px; color: var(--text2); }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 0.5rem 1.1rem;
+    border-radius: var(--radius-md);
+    font-size: 14px; font-weight: 500;
+    cursor: pointer;
+    border: 0.5px solid var(--border2);
+    background: transparent; color: var(--text);
+    transition: background 0.12s, color 0.12s;
+    font-family: inherit;
+  }
+  .btn:hover     { background: var(--bg2); }
+  .btn:disabled  { opacity: 0.4; cursor: default; }
+  .btn-p         { background: var(--blue); color: #fff; border-color: var(--blue); }
+  .btn-p:hover   { background: #0C447C; color: #fff; }
+  .btn-sm        { padding: 0.35rem 0.8rem; font-size: 13px; }
+
+  /* ── Phase 2 ── */
+  .score-band {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg2); border-radius: var(--radius-md);
+    padding: 0.75rem 1rem; margin-bottom: 1.5rem; font-size: 14px;
+  }
+  .score-num { font-size: 20px; font-weight: 600; color: var(--blue); }
+  .obj-card {
+    background: var(--bg); border: 0.5px solid var(--border2);
+    border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 1rem;
+  }
+  .obj-meta  { font-size: 12px; color: var(--text3); margin-bottom: 0.5rem; }
+  .obj-text  { font-size: 15px; line-height: 1.65; margin-bottom: 1rem; font-style: italic; }
+  .rbtn-row  { display: flex; gap: 8px; flex-wrap: wrap; }
+  .rbtn {
+    padding: 0.45rem 1rem; border-radius: 20px;
+    font-size: 13px; font-weight: 500; border: 1.5px solid;
+    cursor: pointer; background: transparent; transition: all 0.12s;
+    font-family: inherit;
+  }
+  .rbtn.g { border-color: var(--green); color: var(--green); }
+  .rbtn.g:hover, .rbtn.g.sel { background: var(--green-l); }
+  .rbtn.m { border-color: var(--amber); color: var(--amber); }
+  .rbtn.m:hover, .rbtn.m.sel { background: var(--amber-l); }
+  .rbtn.t { border-color: var(--coral); color: var(--coral); }
+  .rbtn.t:hover, .rbtn.t.sel { background: var(--coral-l); }
+  .fb {
+    margin-top: 1rem; padding: 1rem 1.25rem;
+    border-radius: var(--radius-md); font-size: 14px; line-height: 1.6;
+    border-left: 3px solid;
+  }
+  .fb-ok { background: var(--green-l); border-color: var(--green); color: #27500A; }
+  .fb-no { background: var(--coral-l); border-color: var(--coral); color: #712B13; }
+
+  /* ── Phase 3 ── */
+  .p3-progress { display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .p3-dots     { display: flex; gap: 5px; flex-wrap: wrap; }
+  .p3-dot {
+    width: 28px; height: 28px; border-radius: 50%; border: 2px solid;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; transition: all 0.2s;
+  }
+  .p3-dot.pending { border-color: var(--border2); color: var(--text3); background: transparent; }
+  .p3-dot.active  { border-color: var(--blue); color: var(--blue); background: var(--blue-l); }
+  .p3-dot.done    { border-color: var(--teal); color: var(--teal); background: var(--teal-l); }
+  .obj-box { background: var(--bg2); border-radius: var(--radius-md); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+  .obj-box-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); margin-bottom: 6px; }
+  .obj-box-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; margin-bottom: 6px; }
+  .badge-t { background: var(--coral-l); color: var(--coral); }
+  .badge-m { background: var(--amber-l); color: var(--amber); }
+  .obj-box-text { font-size: 15px; font-style: italic; line-height: 1.6; }
+  .checkpoint-box {
+    background: var(--bg); border: 1.5px solid var(--blue-m);
+    border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; margin-bottom: 1rem;
+  }
+  .checkpoint-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 1.25rem; }
+
+  /* ── Chat ── */
+  .chat-win {
+    border: 0.5px solid var(--border2); border-radius: var(--radius-lg);
+    overflow: hidden; display: flex; flex-direction: column; height: 380px;
+  }
+  .chat-hd {
+    padding: 0.75rem 1rem; background: var(--blue); color: #fff;
+    font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px;
+  }
+  .bdot { width: 8px; height: 8px; border-radius: 50%; background: #9fe1cb; }
+  .chat-msgs {
+    flex: 1; overflow-y: auto; padding: 1rem;
+    display: flex; flex-direction: column; gap: 10px; background: var(--bg2);
+  }
+  .msg {
+    max-width: 85%; font-size: 14px; line-height: 1.6;
+    padding: 0.6rem 0.9rem; border-radius: 12px; white-space: pre-wrap;
+  }
+  .msg.bot  { background: var(--bg); border: 0.5px solid var(--border2); align-self: flex-start; }
+  .msg.user { background: var(--blue); color: #fff; align-self: flex-end; }
+  .chat-ir  {
+    display: flex; gap: 8px; padding: 0.75rem; background: var(--bg);
+    border-top: 0.5px solid var(--border2);
+  }
+  .chat-in {
+    flex: 1; padding: 0.5rem 0.75rem; font-size: 14px;
+    border: 0.5px solid var(--border2); border-radius: var(--radius-md);
+    background: var(--bg2); color: var(--text); resize: none; font-family: inherit;
+  }
+  .chat-in:focus { outline: none; border-color: var(--blue-m); }
+  .typ { font-size: 12px; color: var(--text3); padding: 0 1rem 0.5rem; background: var(--bg2); display: none; }
+  .approved-bar {
+    background: var(--green-l); padding: 0.75rem 1rem; font-size: 14px; color: #27500A;
+    border-top: 0.5px solid #b2d89a; display: flex; align-items: center;
+    justify-content: space-between; gap: 10px; flex-wrap: wrap;
+  }
+  .ctx-box {
+    background: var(--blue-l); border: 0.5px solid var(--blue-m);
+    border-radius: var(--radius-md); padding: 0.75rem 1rem; margin-bottom: 1rem;
+    font-size: 13px; color: var(--navy);
+  }
+
+  /* ── Phase 5 ── */
+  .peer-card {
+    background: var(--bg); border: 0.5px solid var(--border2);
+    border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 1rem;
+  }
+  .peer-hd { display: flex; align-items: center; gap: 10px; margin-bottom: 0.75rem; }
+  .av {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; flex-shrink: 0;
+  }
+  .peer-obj {
+    font-size: 14px; font-style: italic; line-height: 1.65;
+    padding: 0.75rem; background: var(--bg2); border-radius: var(--radius-md); margin-bottom: 1rem;
+  }
+  .mv-row { display: flex; gap: 8px; margin-bottom: 0.75rem; flex-wrap: wrap; }
+  .mvbtn {
+    flex: 1; min-width: 100px; padding: 0.45rem 0.5rem;
+    border-radius: var(--radius-md); font-size: 12px; font-weight: 500;
+    border: 1.5px solid; cursor: pointer; background: transparent;
+    text-align: center; transition: all 0.12s; font-family: inherit;
+  }
+  .mvbtn.q { border-color: var(--purple); color: var(--purple); }
+  .mvbtn.q.sel, .mvbtn.q:hover { background: var(--purple-l); }
+  .mvbtn.c { border-color: var(--blue); color: var(--blue); }
+  .mvbtn.c.sel, .mvbtn.c:hover { background: var(--blue-l); }
+  .mvbtn.s { border-color: var(--teal); color: var(--teal); }
+  .mvbtn.s.sel, .mvbtn.s:hover { background: var(--teal-l); }
+  .peer-ta {
+    width: 100%; padding: 0.6rem 0.75rem; font-size: 14px;
+    border: 0.5px solid var(--border2); border-radius: var(--radius-md);
+    background: var(--bg2); color: var(--text);
+    resize: vertical; min-height: 80px; font-family: inherit; margin-bottom: 0.75rem;
+  }
+  .peer-ta:focus { outline: none; border-color: var(--blue-m); }
+  .sent-badge {
+    display: inline-flex; align-items: center; gap: 5px; font-size: 12px;
+    color: var(--green); background: var(--green-l); padding: 4px 10px; border-radius: 20px;
+  }
+
+  /* ── Completion ── */
+  .stat-row { display: flex; gap: 12px; justify-content: center; margin: 1.5rem 0; flex-wrap: wrap; }
+  .stat {
+    background: var(--bg2); border-radius: var(--radius-md);
+    padding: 0.75rem 1.25rem; text-align: center; min-width: 110px;
+  }
+  .stat-v { font-size: 24px; font-weight: 600; color: var(--blue); }
+  .stat-l { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .divider { height: 0.5px; background: var(--border2); margin: 1.5rem 0; }
+
+  /* ── API key setup ── */
+  .api-setup {
+    background: var(--blue-l); border: 1px solid var(--blue-m);
+    border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.5rem;
+  }
+  .api-setup h3 { font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 0.5rem; }
+  .api-setup p  { font-size: 13px; color: var(--navy); line-height: 1.6; margin-bottom: 1rem; }
+  .api-input {
+    width: 100%; padding: 0.5rem 0.75rem; font-size: 13px;
+    border: 0.5px solid var(--blue-m); border-radius: var(--radius-md);
+    background: var(--bg); color: var(--text); font-family: monospace;
+    margin-bottom: 0.75rem;
+  }
+  .api-input:focus { outline: none; border-color: var(--blue); }
+  .api-saved { color: var(--teal); font-size: 13px; font-weight: 500; display: none; }
+
+  /* ── Move legend ── */
+  .move-legend { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .move-legend-item {
+    flex: 1; min-width: 130px; padding: 0.75rem;
+    border-radius: var(--radius-md); font-size: 13px;
+  }
+  .move-legend-item strong { display: block; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">Goal-Setting for ESL Lesson Design</div>
+      <div class="topbar-sub">Professional Development Module · 5 Phases</div>
+    </div>
+    <div class="ctj-badge">CTJ</div>
+  </div>
+
+  <!-- Phase nav -->
+  <div class="phase-nav-wrap">
+    <div class="phase-nav" id="pnav"></div>
+    <div class="phase-labels">
+      <span class="phase-label" id="pl1">Concepts</span>
+      <span class="phase-label" id="pl2">Classify</span>
+      <span class="phase-label" id="pl3">Rewrite</span>
+      <span class="phase-label" id="pl4">Apply</span>
+      <span class="phase-label" id="pl5">Exchange</span>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="content" id="root"></div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   API KEY MANAGEMENT
+   Teachers enter their Anthropic API key once;
+   it is stored in sessionStorage for the session.
+   ══════════════════════════════════════════ */
+function getKey(){ return sessionStorage.getItem('ctj_api_key')||''; }
+function setKey(k){ sessionStorage.setItem('ctj_api_key', k.trim()); }
+
+/* ══════════════════════════════════════════
+   DATA
+   ══════════════════════════════════════════ */
+const CARDS=[
+  {pill:'Observable',pillBg:'#E6F1FB',pillC:'#185FA5',
+   rule:'Use a verb that describes something you can see or hear.',
+   tip:'If you can\'t watch a student doing it, you can\'t assess whether they learned it. Swap invisible words like "understand" or "know" for visible actions like "describe," "write," or "ask."',
+   bad:'"Students will understand the present perfect."',badWhy:'"Understand" is invisible — you can\'t watch it happen.',
+   good:'"Students will be able to describe three past experiences using the present perfect in a short speaking activity."',goodWhy:'You can listen and assess whether they did this.'},
+  {pill:'Student-centered',pillBg:'#E1F5EE',pillC:'#0F6E56',
+   rule:'Write about what students do, not what you do.',
+   tip:'Check who is the subject of the sentence. If it\'s "I" or "the teacher," rewrite. A lesson objective describes a student behavior — not a teaching action.',
+   bad:'"I will explain the grammar rules for conditionals using examples."',badWhy:'The teacher is the subject. Students are invisible.',
+   good:'"Students will be able to use first conditional sentences to discuss real plans for the week."',goodWhy:'Now the student is the actor. You can assess whether they succeeded.'},
+  {pill:'Specific',pillBg:'#EEEDFE',pillC:'#534AB7',
+   rule:'Name the skill, the sub-skill, and the context.',
+   tip:'Vague objectives can\'t guide what you teach, what materials you choose, or how you assess. Push yourself to answer: What exactly will students do? With what language? In what situation?',
+   bad:'"Students will improve their speaking skills."',badWhy:'Which aspect of speaking? In what situation? What counts as improvement?',
+   good:'"Students will be able to describe symptoms of an illness to a pharmacist using target medical vocabulary."',goodWhy:'Skill, sub-skill, context, and language — all named.'},
+  {pill:'Measurable',pillBg:'#FAEEDA',pillC:'#BA7517',
+   rule:'Include something you can count or check.',
+   tip:'Ask yourself: how will I know at the end of the lesson whether students achieved this? If your answer is "I\'ll have a feeling they got it," the objective isn\'t measurable. Add a quantity, a standard, or a visible product.',
+   bad:'"Students will practice vocabulary about travel."',badWhy:'How much vocabulary? What counts as practice? There\'s no finish line.',
+   good:'"Students will be able to use six target travel phrases to book a hotel in a role-play."',goodWhy:'Six phrases is countable. The role-play is the visible product you check.'},
+  {pill:'Achievable',pillBg:'#FAECE7',pillC:'#993C1D',
+   rule:'Aim just beyond what students can already do — not five steps ahead.',
+   tip:'The sweet spot is something that requires effort but is reachable within this lesson, at this level, with the support you provide.',
+   bad:'"Students will know how to use articles in English."',badWhy:'English articles take years to master. This can\'t happen in one lesson.',
+   good:'"Students will be able to use the definite article correctly when referring to a previously mentioned noun in a short paragraph."',goodWhy:'One rule, one context, one lesson. Reachable.'},
+  {pill:'Language-focused',pillBg:'#EAF3DE',pillC:'#3B6D11',
+   rule:'Name both the language form and what students will communicate with it.',
+   tip:'Knowing a grammar rule is not the same as using it to communicate. Every ESL objective should specify the form (e.g. modal verbs) and the communicative job it does (e.g. giving advice).',
+   bad:'"Students will learn about modal verbs."',badWhy:'"Learning about" a form is passive. No communicative function is named.',
+   good:'"Students will be able to use modal verbs of obligation to give workplace advice in a pair discussion."',goodWhy:'Form + function + context. Complete.'},
+  {pill:'Contextualized',pillBg:'#E6F1FB',pillC:'#0C447C',
+   rule:'Situate the language in a real-world scenario.',
+   tip:'Language always happens somewhere, with someone, for a reason. Naming the situation makes the lesson relevant and helps students see why they\'re learning this.',
+   bad:'"Students will be able to write a formal email."',badWhy:'To whom? About what? The context is missing.',
+   good:'"Students will be able to write a 50-word email to a colleague requesting to postpone a meeting, using appropriate formal register."',goodWhy:'Recipient, purpose, register, length — all named.'},
+  {pill:'Realistic',pillBg:'#EEEDFE',pillC:'#534AB7',
+   rule:'Keep the scope inside one lesson.',
+   tip:'A lesson objective describes what\'s achievable in 50–90 minutes. If it would take three classes, it\'s a unit goal. Narrow it down.',
+   bad:'"Students will become fluent in giving presentations in English."',badWhy:'Fluency in presentations is a semester goal.',
+   good:'"Students will be able to deliver a 60-second spoken product introduction using a provided structure."',goodWhy:'60 seconds, one structure. Doable in a single class.'},
+  {pill:'Scaffolded',pillBg:'#E1F5EE',pillC:'#0F6E56',
+   rule:'Build multiple objectives as a staircase — not a list.',
+   tip:'Each objective should open the door to the next. If you can reorder the activities without losing anything, there\'s no scaffold.',
+   bad:'"Students will practice reading and writing and speaking and listening."',badWhy:'Four skills, no sequence, no connection. A list, not a plan.',
+   good:'"Obj 1: Students identify key details in an article. Obj 2: Students use those details to argue a position in a group discussion."',goodWhy:'Reading feeds into speaking. Remove step 1 and step 2 collapses.'},
+  {pill:'Communicative',pillBg:'#E6F1FB',pillC:'#185FA5',
+   rule:'The lesson should end with students saying something to someone.',
+   tip:'Does the final activity require genuine exchange of meaning between people? If the last task is a silent gap-fill, the objective needs rethinking.',
+   bad:'"Students will read the text and answer comprehension questions."',badWhy:'Individual, silent, one-directional. No communication.',
+   good:'"Students will be able to discuss the main argument with a partner and agree on whether it\'s convincing, giving one reason each."',goodWhy:'Reading becomes a launchpad for real spoken exchange.'},
+];
+
+const OBJECTIVES=[
+  {text:'By the end of the lesson, students will be able to talk about food.',level:'Terrible',explanation:'This fails every criterion. "Talk about food" is invisible, unmeasurable, and unspecific. Revision: "Students will be able to describe a traditional dish using sensory adjectives and present tense in response to a partner\'s question."'},
+  {text:'Students will be able to distinguish between formal and informal register when making requests in a professional email context.',level:'Good',explanation:'Strong. Specific, measurable, student-centered, language-focused (requests + register), contextualized (professional email), and observable. All criteria met.'},
+  {text:'Students will learn about the difference between the Present Simple and Present Continuous tenses.',level:'Missing Something',explanation:'"Will learn about" is passive with no communicative context. Revision: "Students will be able to use Present Simple vs. Continuous to describe their daily routine vs. what they are doing right now in a class survey."'},
+  {text:'By the end of class, students will be able to leave a 60-second voicemail in English requesting a rescheduled meeting, using appropriate formal language and at least three modal verbs.',level:'Good',explanation:'Excellent. Specific, measurable (60 seconds, three modals), student-centered, language-focused, contextualized, and observable.'},
+  {text:'Students will practice speaking.',level:'Terrible',explanation:'"Practice speaking" is an activity type, not a learning outcome. Revision: "Students will be able to express and justify a personal opinion using discourse markers in a structured class debate."'},
+  {text:'Students will be able to use three repair strategies (asking for clarification, paraphrasing, and buying time) to maintain a conversation when they encounter an unknown word.',level:'Good',explanation:'Specific (three named strategies), measurable, student-centered, contextualized, and observable.'},
+  {text:'By the end of the lesson, students will understand the passive voice.',level:'Missing Something',explanation:'"Understand" is not observable and there is no communicative context. Revision: "Students will be able to describe a manufacturing process using passive voice in a short class presentation."'},
+  {text:'Students will be able to read a CTJ placement test instruction and identify the key task requirements within two minutes.',level:'Good',explanation:'Specific, measurable (two minutes), student-centered, language-focused, and observable. CTJ-relevant.'},
+  {text:'Students will improve their writing skills.',level:'Terrible',explanation:'Far too broad. "Improve" cannot be measured in 50 minutes. Revision: "Students will be able to write a three-sentence professional bio in third person using cohesive devices for a LinkedIn profile."'},
+  {text:'By the end of the class, students will be able to ask and respond to three types of clarification questions in a B2-level discussion, using appropriate intonation.',level:'Good',explanation:'Specific, measurable, student-centered, contextualized, and observable. Targets strategic competence and pronunciation.'},
+  {text:'The teacher will explain the grammar rules for conditionals using examples.',level:'Terrible',explanation:'This is a teacher objective, not a student objective. Revision: "Students will be able to use first and second conditional sentences to discuss hypothetical professional dilemmas in a role-play."'},
+  {text:'Students will be able to identify the main idea and two supporting details from an authentic podcast excerpt at B2 level.',level:'Good',explanation:'Specific, measurable, student-centered, contextualized (authentic podcast, B2 level), and observable.'},
+  {text:'Students will know how to use articles in English.',level:'Missing Something',explanation:'Articles are a multi-lesson topic — too broad. Revision: "Students will be able to correctly use definite and indefinite articles when introducing new vs. known information in a short oral presentation."'},
+  {text:'By the end of the activity, students will be able to negotiate a price for a second-hand item using at least two counter-offer expressions and polite hedging language.',level:'Good',explanation:'Real-world task, specific forms (counter-offers, hedging), measurable (two expressions). Fully achievable.'},
+  {text:'Students will complete a reading comprehension exercise about environmental issues.',level:'Missing Something',explanation:'Describes an activity, not a learning outcome. Revision: "Students will be able to infer the author\'s implied opinion from a B2-level article, citing at least two pieces of textual evidence."'},
+  {text:'Students will be able to use discourse markers (however, in contrast, furthermore) to structure a spoken opinion of 90 seconds or more on a B2-level topic.',level:'Good',explanation:'Specific (three named markers, 90-second minimum), measurable, student-centered, contextualized, and observable.'},
+  {text:'Students will enjoy the lesson about English phrasal verbs.',level:'Terrible',explanation:'Enjoyment is an aspiration, not a learning objective. Revision: "Students will be able to use five work-related phrasal verbs in a role-play about a workplace problem."'},
+  {text:'By the end of the lesson, students will be able to summarize a 3-minute news report in 2-3 spoken sentences, identifying who, what, and where.',level:'Good',explanation:'Specific, measurable, student-centered, contextualized, and observable.'},
+  {text:'Students will be introduced to vocabulary related to health and medicine.',level:'Missing Something',explanation:'"Be introduced to" is a teacher action in passive disguise. Revision: "Students will be able to use eight target medical vocabulary items to explain symptoms to a pharmacist in a role-play."'},
+  {text:'Students will be able to write a professional cover letter opening paragraph of 50–75 words, using appropriate register and at least one subordinating clause.',level:'Good',explanation:'Specific, measurable (50–75 words, one clause), student-centered, language-focused, and contextualized (job application).'},
+];
+
+const PEERS=[
+  {name:'Carla M.',level:'Senior teacher, 5 years',ini:'CM',bg:'#EEEDFE',c:'#534AB7',obj:'By the end of the lesson, students will be able to use at least three comparative structures to describe differences between two job candidates in a simulated HR meeting.'},
+  {name:'Rafael S.',level:'Trainee teacher, 1st semester',ini:'RS',bg:'#E6F1FB',c:'#185FA5',obj:'Students will practice vocabulary about travel and tourism and talk about their favorite places.'},
+  {name:'Luísa A.',level:'Senior teacher, 8 years',ini:'LA',bg:'#E1F5EE',c:'#0F6E56',obj:'By the end of class, students will be able to construct a 90-second spoken narrative about a past professional challenge using narrative tenses and at least two cohesive adverbs.'},
+  {name:'Thiago B.',level:'Trainee teacher, 2nd semester',ini:'TB',bg:'#FAEEDA',c:'#BA7517',obj:'Students will learn the difference between too, also, and as well and when to use them.'},
+];
+
+/* ══════════════════════════════════════════
+   STATE
+   ══════════════════════════════════════════ */
+let S={
+  ph:1, ci:0,
+  p2a:{}, p2s:0,
+  p3weak:[], p3idx:0, p3chats:{}, p3approved:{}, p3checkpoint:false, p3finished:false,
+  c4:[],
+  pm:{}, pt:{}, ps:{},
+  done:[]
+};
+
+/* ══════════════════════════════════════════
+   AI
+   ══════════════════════════════════════════ */
+const SYS_P3=`You are Coach Alex, a warm ELT professional development coach at Casa Thomas Jefferson (CTJ) in Brasília, Brazil. You help in-service ESL teachers rewrite weak lesson objectives into strong ones through progressive, scaffolded coaching.
+
+A strong lesson objective must be:
+- Specific (names skill, sub-skill, context)
+- Measurable (countable or assessable output)
+- Student-centered (starts with "Students will be able to...")
+- Achievable and Realistic (possible in one lesson at the student's level)
+- Language-focused (names a linguistic form AND a communicative function)
+- Contextualized (situates the language in a real-world scenario)
+- Observable (uses a visible action verb: describe, write, ask, produce, discuss...)
+- Scaffolded (implies appropriate progression for the learners' level)
+
+PROGRESSIVE COACHING RULES:
+- First attempt: acknowledge any improvement, identify the ONE most important missing criterion, give one concrete hint. Do NOT list all problems at once.
+- Second attempt: acknowledge progress, point to the next gap, give another concrete hint.
+- Third attempt onward: be more explicit and direct if needed.
+- When the objective meets at least 6 of 8 criteria: celebrate warmly, confirm approval, and end with exactly ##APPROVED## on its own line.
+
+Style: warm, collegial peer-coach. Under 130 words. Flowing prose, no bullet points.`;
+
+const SYS_P4=`You are Coach Alex, a warm ELT professional development coach at Casa Thomas Jefferson (CTJ) in Brasília, Brazil. Help this teacher write and refine two genuine lesson objectives for their upcoming CTJ class.
+
+A strong objective: specific, measurable, student-centered ("Students will be able to..."), achievable in one lesson, realistic, language-focused (form + communicative function), contextualized, observable (visible action verb), appropriately scaffolded.
+
+Ask about course name, student level, age group, and lesson topic if not yet provided. Give CTJ-calibrated feedback. When an objective is strong, confirm it warmly and encourage the second one.
+
+Style: warm, collegial. Under 130 words. Flowing prose, no bullet points.`;
+
+async function callBot(msgs, sys){
+  const key = getKey();
+  if(!key){
+    showApiPrompt();
+    return 'Please enter your Anthropic API key above to activate Coach Alex.';
+  }
+  try{
+    const r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-calls':'true'},
+      body: JSON.stringify({model:'claude-sonnet-4-6',max_tokens:350,system:sys,messages:msgs.map(m=>({role:m.role,content:m.content}))})
+    });
+    const d = await r.json();
+    if(d.error){ return 'API error: '+d.error.message; }
+    return d.content?.[0]?.text || 'No response received.';
+  }catch(e){ return 'Connection error — please check your API key and try again.'; }
+}
+
+/* ══════════════════════════════════════════
+   API KEY UI
+   ══════════════════════════════════════════ */
+function showApiPrompt(){
+  const existing = document.getElementById('api-setup-box');
+  if(existing) return;
+  const box = document.createElement('div');
+  box.id = 'api-setup-box';
+  box.className = 'api-setup';
+  box.innerHTML = `
+    <h3>🔑 Anthropic API Key Required</h3>
+    <p>Phases 3 and 4 use Coach Alex, an AI coaching bot powered by Claude. To activate it, enter your Anthropic API key below. The key is stored only in your browser session and never sent anywhere except the Anthropic API.</p>
+    <p>Get your key at <a href="https://console.anthropic.com" target="_blank" style="color:#185FA5">console.anthropic.com</a> → API Keys.</p>
+    <input class="api-input" type="password" id="api-key-input" placeholder="sk-ant-..." value="${getKey()}">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="btn btn-p btn-sm" onclick="saveKey()">Save key</button>
+      <span class="api-saved" id="api-saved-msg">✓ Key saved</span>
+    </div>`;
+  document.querySelector('.content').prepend(box);
+}
+
+function saveKey(){
+  const val = document.getElementById('api-key-input')?.value?.trim();
+  if(!val) return;
+  setKey(val);
+  document.getElementById('api-saved-msg').style.display = 'inline';
+  setTimeout(()=>{
+    const el = document.getElementById('api-setup-box');
+    if(el) el.remove();
+  }, 1200);
+}
+
+/* ══════════════════════════════════════════
+   PHASE NAV
+   ══════════════════════════════════════════ */
+function renderNav(){
+  const nav = document.getElementById('pnav');
+  nav.innerHTML = [1,2,3,4,5].map(p=>`<div class="phase-dot ${S.done.includes(p)?'done':p===S.ph?'active':''}"></div>`).join('');
+  ['pl1','pl2','pl3','pl4','pl5'].forEach((id,i)=>{
+    const el = document.getElementById(id);
+    const p = i+1;
+    el.className = 'phase-label'+(S.done.includes(p)?' done':p===S.ph?' active':'');
+  });
+}
+
+/* ══════════════════════════════════════════
+   PHASE 1 — CONCEPT CARDS
+   ══════════════════════════════════════════ */
+function rP1(){
+  const c = CARDS[S.ci], pct = Math.round((S.ci/CARDS.length)*100);
+  return`
+  <div class="phase-eyebrow">Phase 1 of 5</div>
+  <h1 class="phase-title">What makes a lesson objective good?</h1>
+  <p class="phase-desc">One idea per card. Read the rule, see why a weak objective fails, and see how to fix it.</p>
+  <div class="concept-card">
+    <div class="card-top">
+      <span class="pill" style="background:${c.pillBg};color:${c.pillC}">${c.pill}</span>
+      <span class="card-num">Card ${S.ci+1} of ${CARDS.length}</span>
+    </div>
+    <div class="card-rule">${c.rule}</div>
+    <div class="card-tip">${c.tip}</div>
+    <div class="ba-wrap">
+      <div class="ba-block bad">
+        <div class="ba-label">Weak</div>
+        <div class="ba-text">${c.bad}</div>
+        <div class="ba-why">Problem: ${c.badWhy}</div>
+      </div>
+      <div class="arrow-row"><div class="arrow-line"></div><div class="arrow-txt">revised to</div><div class="arrow-line"></div></div>
+      <div class="ba-block good">
+        <div class="ba-label">Strong</div>
+        <div class="ba-text">${c.good}</div>
+        <div class="ba-why">Why it works: ${c.goodWhy}</div>
+      </div>
+    </div>
+    <div class="prog-wrap"><div class="prog-fill" style="width:${pct}%"></div></div>
+    <div class="card-nav">
+      <button class="btn btn-sm" onclick="p1b()" ${S.ci===0?'disabled':''}>← Back</button>
+      <span class="card-counter">${S.ci+1} / ${CARDS.length}</span>
+      ${S.ci<CARDS.length-1
+        ?`<button class="btn btn-sm btn-p" onclick="p1n()">Next →</button>`
+        :`<button class="btn btn-p" onclick="fin(1)">Start Phase 2 →</button>`}
+    </div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════
+   PHASE 2 — DISCRIMINATION
+   ══════════════════════════════════════════ */
+function rP2(){
+  const tot=OBJECTIVES.length, ans=Object.keys(S.p2a).length, all=ans===tot;
+  let h=`
+  <div class="phase-eyebrow">Phase 2 of 5</div>
+  <h1 class="phase-title">Good, missing something, or terrible?</h1>
+  <p class="phase-desc">Classify each objective. After every choice you'll see expert feedback explaining exactly why.</p>
+  <div class="score-band">
+    <span style="color:var(--text2)">${ans} of ${tot} evaluated</span>
+    <span class="score-num">${S.p2s}<span style="font-size:14px;font-weight:400;color:var(--text2)"> / ${ans} correct</span></span>
+  </div>`;
+  OBJECTIVES.forEach((o,i)=>{
+    const a=S.p2a[i];
+    const ok=a&&((o.level==='Good'&&a==='g')||(o.level==='Missing Something'&&a==='m')||(o.level==='Terrible'&&a==='t'));
+    h+=`<div class="obj-card">
+      <div class="obj-meta">Objective ${i+1}</div>
+      <div class="obj-text">"${o.text}"</div>
+      <div class="rbtn-row">
+        <button class="rbtn g ${a==='g'?'sel':''}" onclick="rate(${i},'g')" ${a?'disabled':''}>✓ Good to Go</button>
+        <button class="rbtn m ${a==='m'?'sel':''}" onclick="rate(${i},'m')" ${a?'disabled':''}>⚠ Missing Something</button>
+        <button class="rbtn t ${a==='t'?'sel':''}" onclick="rate(${i},'t')" ${a?'disabled':''}>✗ Terrible</button>
+      </div>
+      ${a?`<div class="fb ${ok?'fb-ok':'fb-no'}"><strong>${ok?'✓ Correct.':'✗ Not quite.'}</strong> ${o.explanation}</div>`:''}
+    </div>`;
+  });
+  if(all){
+    const pct=Math.round((S.p2s/tot)*100);
+    h+=`<div style="text-align:center;padding:1rem 0">
+      <p style="font-size:15px;color:var(--text2);margin-bottom:1rem">You scored <strong style="color:var(--blue)">${S.p2s}/${tot}</strong> (${pct}%). ${pct>=70?'Strong evaluation skills.':'Review the feedback above before moving on.'}</p>
+      <button class="btn btn-p" onclick="goP3()">Continue to Phase 3 →</button>
+    </div>`;
+  }
+  return h;
+}
+
+/* ══════════════════════════════════════════
+   PHASE 3 — ITERATIVE REWRITING
+   ══════════════════════════════════════════ */
+function goP3(){
+  if(!S.done.includes(2)) S.done.push(2);
+  S.p3weak = OBJECTIVES.map((o,i)=>({objIdx:i,obj:o})).filter(x=>x.obj.level!=='Good');
+  S.p3idx=0; S.p3chats={}; S.p3approved={}; S.p3checkpoint=false; S.p3finished=false;
+  S.ph=3;
+  initChat(0);
+  render();
+}
+
+function initChat(idx){
+  if(!S.p3weak[idx]) return;
+  const item=S.p3weak[idx];
+  const badge=item.obj.level==='Terrible'?'Terrible':'Missing Something';
+  S.p3chats[idx]=[{role:'assistant',content:`Let's work on this one together. Here's the original objective, which was marked "${badge}":\n\n"${item.obj.text}"\n\nHave a go at rewriting it. Start with "Students will be able to..." and make sure you name both the language form and what students will communicate with it. I'll guide you step by step.`}];
+}
+
+function rP3dots(){
+  const weak=S.p3weak;
+  const dots=weak.map((_,i)=>{
+    let cls='pending';
+    if(S.p3approved[i]) cls='done';
+    else if(i===S.p3idx&&!S.p3checkpoint&&!S.p3finished) cls='active';
+    return`<div class="p3-dot ${cls}">${i+1}</div>`;
+  }).join('');
+  const done=Object.keys(S.p3approved).length;
+  return`<div class="p3-progress"><div class="p3-dots">${dots}</div><span style="font-size:13px;color:var(--text2)">${done} of ${weak.length} rewritten</span></div>`;
+}
+
+function rP3(){
+  const weak=S.p3weak;
+  if(!weak||weak.length===0){
+    return`<div class="phase-eyebrow">Phase 3 of 5</div>
+    <h1 class="phase-title">Rewrite the weak objectives</h1>
+    <p class="phase-desc">No weak objectives found — excellent discrimination skills!</p>
+    <div style="text-align:center;padding:1rem 0"><button class="btn btn-p" onclick="fin(3)">Continue to Phase 4 →</button></div>`;
+  }
+  const total=weak.length, approvedCount=Object.keys(S.p3approved).length;
+
+  if(S.p3checkpoint&&!S.p3finished){
+    const remaining=total-approvedCount;
+    return`<div class="phase-eyebrow">Phase 3 of 5</div>
+    <h1 class="phase-title">Rewrite the weak objectives</h1>
+    ${rP3dots()}
+    <div class="checkpoint-box">
+      <div style="font-size:28px;margin-bottom:0.75rem">🎯</div>
+      <div style="font-size:17px;font-weight:600;margin-bottom:0.5rem">Checkpoint — 5 objectives rewritten!</div>
+      <p style="font-size:14px;color:var(--text2);line-height:1.6">You've successfully revised 5 weak objectives into strong ones. There ${remaining===1?'is':'are'} <strong>${remaining}</strong> more objective${remaining===1?'':'s'} left. Keep going, or move on to Phase 4 now.</p>
+      <div class="checkpoint-btns">
+        <button class="btn btn-p" onclick="continueP3()">Keep going (${remaining} left)</button>
+        <button class="btn" onclick="fin(3)">Move to Phase 4 →</button>
+      </div>
+    </div>`;
+  }
+
+  if(S.p3finished){
+    return`<div class="phase-eyebrow">Phase 3 of 5</div>
+    <h1 class="phase-title">Rewrite the weak objectives</h1>
+    ${rP3dots()}
+    <div style="background:var(--green-l);border:0.5px solid var(--green);border-radius:var(--radius-lg);padding:1.5rem;text-align:center">
+      <div style="font-size:28px;margin-bottom:0.5rem">✓</div>
+      <div style="font-size:17px;font-weight:600;color:#27500A;margin-bottom:0.5rem">All ${total} objectives rewritten!</div>
+      <p style="font-size:14px;color:var(--green);margin-bottom:1.25rem">Excellent. You've turned every weak objective into a strong, communicative lesson goal.</p>
+      <button class="btn btn-p" onclick="fin(3)">Continue to Phase 4 →</button>
+    </div>`;
+  }
+
+  const idx=S.p3idx, item=weak[idx], msgs=S.p3chats[idx]||[], approved=S.p3approved[idx];
+  return`<div class="phase-eyebrow">Phase 3 of 5</div>
+  <h1 class="phase-title">Rewrite the weak objectives</h1>
+  <p class="phase-desc">Work with Coach Alex to turn each weak objective into a strong one. You'll get progressive hints until you get there.</p>
+  ${rP3dots()}
+  <div class="obj-box">
+    <div class="obj-box-label">Original objective ${idx+1} of ${total}</div>
+    <div class="obj-box-badge ${item.obj.level==='Terrible'?'badge-t':'badge-m'}">${item.obj.level==='Terrible'?'✗ Terrible':'⚠ Missing Something'}</div>
+    <div class="obj-box-text">"${item.obj.text}"</div>
+  </div>
+  <div class="chat-win">
+    <div class="chat-hd"><div class="bdot"></div>Coach Alex</div>
+    <div class="chat-msgs" id="p3chat">
+      ${msgs.map(m=>`<div class="msg ${m.role==='user'?'user':'bot'}">${m.content.replace(/##APPROVED##/g,'').trim()}</div>`).join('')}
+    </div>
+    <div class="typ" id="p3typ">Coach Alex is thinking...</div>
+    ${approved
+      ?`<div class="approved-bar"><span>✓ Objective approved!</span>${idx<total-1?`<button class="btn btn-sm btn-p" onclick="nextP3()">Next objective →</button>`:`<button class="btn btn-sm btn-p" onclick="allDone()">Finish Phase 3 →</button>`}</div>`
+      :`<div class="chat-ir"><textarea class="chat-in" id="p3in" placeholder="Type your revised objective here..." rows="2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendP3();}"></textarea><button class="btn btn-p btn-sm" onclick="sendP3()">Send</button></div>`
+    }
+  </div>`;
+}
+
+async function sendP3(){
+  const inp=document.getElementById('p3in');
+  const txt=inp?.value?.trim(); if(!txt) return;
+  inp.value='';
+  const idx=S.p3idx;
+  if(!S.p3chats[idx]) S.p3chats[idx]=[];
+  S.p3chats[idx].push({role:'user',content:txt});
+  render(); sb('p3chat');
+  document.getElementById('p3typ').style.display='block';
+  const item=S.p3weak[idx];
+  const sys=SYS_P3+`\n\nORIGINAL WEAK OBJECTIVE: "${item.obj.text}" (rated: ${item.obj.level})\nKnown problem: ${item.obj.explanation}`;
+  const rep=await callBot(S.p3chats[idx],sys);
+  document.getElementById('p3typ').style.display='none';
+  S.p3chats[idx].push({role:'assistant',content:rep});
+  if(rep.includes('##APPROVED##')){
+    S.p3approved[idx]=true;
+    if(Object.keys(S.p3approved).length===5&&S.p3weak.length>5&&!S.p3checkpoint) S.p3checkpoint=true;
+  }
+  render(); sb('p3chat');
+}
+
+function nextP3(){ S.p3idx++; if(!S.p3chats[S.p3idx]) initChat(S.p3idx); render(); window.scrollTo({top:0,behavior:'smooth'}); }
+function allDone(){ S.p3finished=true; render(); }
+function continueP3(){ S.p3checkpoint=false; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+/* ══════════════════════════════════════════
+   PHASE 4 — CONTEXTUALIZED APPLICATION
+   ══════════════════════════════════════════ */
+function rP4(){
+  return`
+  <div class="phase-eyebrow">Phase 4 of 5</div>
+  <h1 class="phase-title">Write your own objectives</h1>
+  <p class="phase-desc">Write two genuine lesson objectives for your upcoming CTJ classes. Coach Alex will give you feedback tailored to your specific course and students.</p>
+  <div class="ctx-box"><strong>Your context:</strong> Casa Thomas Jefferson, Brasília. Tell Coach Alex your course name, student level, age group, and lesson topic.</div>
+  <div class="chat-win">
+    <div class="chat-hd"><div class="bdot"></div>Coach Alex — CTJ Curriculum Advisor</div>
+    <div class="chat-msgs" id="p4chat">
+      ${S.c4.length===0?`<div class="msg bot">Welcome to Phase 4 — this is where the real work happens. Tell me about your upcoming lesson: which CTJ course are you teaching, what level and age group are your students, and what is your topic? Once I have that, write two objectives and I'll give you feedback tailored to your actual class.</div>`:''}
+      ${S.c4.map(m=>`<div class="msg ${m.role==='user'?'user':'bot'}">${m.content}</div>`).join('')}
+    </div>
+    <div class="typ" id="p4typ">Coach Alex is thinking...</div>
+    <div class="chat-ir">
+      <textarea class="chat-in" id="p4in" placeholder="Describe your class or paste your objective..." rows="2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendP4();}"></textarea>
+      <button class="btn btn-p btn-sm" onclick="sendP4()">Send</button>
+    </div>
+  </div>
+  <div style="margin-top:1rem;text-align:right"><button class="btn btn-sm btn-p" onclick="fin(4)">Move to Phase 5 →</button></div>`;
+}
+
+async function sendP4(){
+  const inp=document.getElementById('p4in');const txt=inp?.value?.trim();if(!txt)return;
+  inp.value='';S.c4.push({role:'user',content:txt});render();
+  document.getElementById('p4typ').style.display='block';sb('p4chat');
+  const rep=await callBot(S.c4,SYS_P4);
+  document.getElementById('p4typ').style.display='none';
+  S.c4.push({role:'assistant',content:rep});render();sb('p4chat');
+}
+
+/* ══════════════════════════════════════════
+   PHASE 5 — PEER EXCHANGE
+   ══════════════════════════════════════════ */
+function rP5(){
+  const allSent=PEERS.every((_,i)=>S.ps[i]);
+  const pl={'q':'What question would you ask this teacher about their objective?','c':'Share an observation or affirm what works well.','s':'Offer one specific, actionable suggestion to strengthen this objective.'};
+  const ph={'q':'Asking a question','c':'Making a comment','s':'Offering a suggestion'};
+  let h=`
+  <div class="phase-eyebrow">Phase 5 of 5</div>
+  <h1 class="phase-title">Peer exchange</h1>
+  <p class="phase-desc">Review lesson objectives written by your CTJ colleagues. Choose one conversational move, write your response, and send it directly to the author.</p>
+  <div class="move-legend">
+    <div class="move-legend-item" style="background:#EEEDFE;color:#534AB7"><strong>Ask a question</strong>Invite reflection or clarification</div>
+    <div class="move-legend-item" style="background:#E6F1FB;color:#185FA5"><strong>Make a comment</strong>Affirm a strength or share a thought</div>
+    <div class="move-legend-item" style="background:#E1F5EE;color:#0F6E56"><strong>Offer a suggestion</strong>Propose one specific improvement</div>
+  </div>`;
+  PEERS.forEach((p,i)=>{
+    const mv=S.pm[i],sent=S.ps[i];
+    h+=`<div class="peer-card">
+      <div class="peer-hd">
+        <div class="av" style="background:${p.bg};color:${p.c}">${p.ini}</div>
+        <div><div style="font-size:14px;font-weight:500">${p.name}</div><div style="font-size:12px;color:var(--text2)">${p.level}</div></div>
+      </div>
+      <div class="peer-obj">"${p.obj}"</div>
+      ${!sent
+        ?`<div style="font-size:11px;font-weight:500;color:var(--text3);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em">Choose your move</div>
+        <div class="mv-row">
+          <button class="mvbtn q ${mv==='q'?'sel':''}" onclick="setM(${i},'q')">Ask a question</button>
+          <button class="mvbtn c ${mv==='c'?'sel':''}" onclick="setM(${i},'c')">Make a comment</button>
+          <button class="mvbtn s ${mv==='s'?'sel':''}" onclick="setM(${i},'s')">Offer a suggestion</button>
+        </div>
+        ${mv?`<div style="font-size:12px;color:var(--text2);margin-bottom:4px">${ph[mv]}:</div>
+        <textarea class="peer-ta" id="pt${i}" placeholder="${pl[mv]}">${S.pt[i]||''}</textarea>
+        <div style="text-align:right"><button class="btn btn-p btn-sm" onclick="speer(${i})">Send to ${p.name.split(' ')[0]} →</button></div>`:''}`
+        :`<div class="sent-badge">✓ Sent to ${p.name.split(' ')[0]}</div>
+        <div style="margin-top:0.75rem;font-size:13px;color:var(--text2)">"${S.pt[i]}"</div>`
+      }
+    </div>`;
+  });
+  if(allSent) h+=`<div style="text-align:center;padding:1rem 0"><button class="btn btn-p" onclick="fin(5)">Complete the module →</button></div>`;
+  return h;
+}
+
+/* ══════════════════════════════════════════
+   COMPLETION
+   ══════════════════════════════════════════ */
+function rComp(){
+  const rw=Object.keys(S.p3approved).length;
+  const ex=S.c4.filter(m=>m.role==='user').length;
+  return`<div style="text-align:center;padding:2rem 0">
+    <div style="width:68px;height:68px;border-radius:50%;background:var(--teal-l);border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:30px">✓</div>
+    <h2 style="font-size:22px;font-weight:600;margin-bottom:0.5rem;letter-spacing:-0.02em">Module complete</h2>
+    <p style="font-size:15px;color:var(--text2);line-height:1.6;max-width:480px;margin:0 auto 0.5rem">You've completed all five phases of <em>Goal-Setting for ESL Lesson Design</em>. Your objectives have been logged in the CTJ Goal Bank and peer reviews sent to your colleagues.</p>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-v">${CARDS.length}</div><div class="stat-l">Cards read</div></div>
+      <div class="stat"><div class="stat-v">${S.p2s}/${OBJECTIVES.length}</div><div class="stat-l">Phase 2 score</div></div>
+      <div class="stat"><div class="stat-v">${rw}</div><div class="stat-l">Objectives rewritten</div></div>
+      <div class="stat"><div class="stat-v">${ex}</div><div class="stat-l">AI exchanges</div></div>
+      <div class="stat"><div class="stat-v">${Object.values(S.ps).filter(Boolean).length}</div><div class="stat-l">Peer reviews sent</div></div>
+    </div>
+    <div class="divider"></div>
+    <p style="font-size:13px;color:var(--text3);margin-bottom:1rem">Casa Thomas Jefferson · Professional Development · Brasília</p>
+    <button class="btn" onclick="restart()">Start again from Phase 1</button>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════
+   RENDER
+   ══════════════════════════════════════════ */
+function render(){
+  renderNav();
+  const root=document.getElementById('root');
+  if(S.done.length===5)      root.innerHTML=rComp();
+  else if(S.ph===1)          root.innerHTML=rP1();
+  else if(S.ph===2)          root.innerHTML=rP2();
+  else if(S.ph===3)          root.innerHTML=rP3();
+  else if(S.ph===4)          root.innerHTML=rP4();
+  else if(S.ph===5)          root.innerHTML=rP5();
+  sb('p3chat'); sb('p4chat');
+  // If entering phase 3 or 4, show API setup if no key
+  if((S.ph===3||S.ph===4)&&!getKey()) showApiPrompt();
+}
+
+/* ══════════════════════════════════════════
+   HELPERS
+   ══════════════════════════════════════════ */
+function sb(id){ const el=document.getElementById(id); if(el) el.scrollTop=el.scrollHeight; }
+function p1b(){ if(S.ci>0){S.ci--;render();} }
+function p1n(){ if(S.ci<CARDS.length-1){S.ci++;render();} }
+function rate(i,v){
+  if(S.p2a[i]) return;
+  const o=OBJECTIVES[i];
+  const ok=(o.level==='Good'&&v==='g')||(o.level==='Missing Something'&&v==='m')||(o.level==='Terrible'&&v==='t');
+  S.p2a[i]=v; if(ok) S.p2s++;
+  render();
+  setTimeout(()=>{ const el=document.querySelectorAll('.obj-card')[i]; if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'}); },100);
+}
+function setM(i,m){ S.pm[i]=m; render(); }
+function speer(i){
+  const ta=document.getElementById('pt'+i); const txt=ta?.value?.trim(); if(!txt) return;
+  S.pt[i]=txt; S.ps[i]=true; render();
+}
+function fin(n){
+  if(!S.done.includes(n)) S.done.push(n);
+  S.ph=n+1;
+  window.scrollTo({top:0,behavior:'smooth'});
+  render();
+}
+function restart(){
+  S={ph:1,ci:0,p2a:{},p2s:0,p3weak:[],p3idx:0,p3chats:{},p3approved:{},p3checkpoint:false,p3finished:false,c4:[],pm:{},pt:{},ps:{},done:[]};
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
+
